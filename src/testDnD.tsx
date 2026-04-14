@@ -642,18 +642,31 @@ function BottomDropZone({ isEmpty, isDraggingFromSidebar }: { isEmpty: boolean; 
 }
 
 // ─── FormCanvas ───────────────────────────────────────────────────────────────
-function FormCanvas({ rows, selectedId, dropTarget, isDraggingFromSidebar, onSelectField, onDeleteField, onResizeRow }: {
+function FormCanvas({ rows, selectedId, dropTarget, isDraggingFromSidebar, onSelectField, onDeleteField, onResizeRow, onDeselect }: {
   rows: Row[]; selectedId: string | null; dropTarget: DropTarget | null;
   isDraggingFromSidebar: boolean;
   onSelectField: (id: string) => void; onDeleteField: (id: string) => void;
   onResizeRow: (rowId: string, newWidths: number[]) => void;
+  onDeselect: () => void;
 }) {
   const allFieldSortableIds = rows.flatMap((row) => row.cells.map((c) => `field:${c.field.id}`));
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", background: "#f0f2f5", padding: "24px" }}>
+    <div
+      style={{ flex: 1, overflowY: "auto", background: "#f0f2f5", padding: "24px" }}
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        // Bỏ focus khi click vào vùng ngoài card
+        if (e.target === e.currentTarget) onDeselect();
+      }}
+    >
       <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        <div style={{ background: "#fafafa", borderRadius: 10, border: "1px solid #e2e8f0", padding: "24px 28px", minHeight: 500 }}>
+        <div
+          style={{ background: "#fafafa", borderRadius: 10, border: "1px solid #e2e8f0", padding: "24px 28px", minHeight: 500 }}
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            // Bỏ focus khi click vào vùng trống trong card (không phải field)
+            if (e.target === e.currentTarget) onDeselect();
+          }}
+        >
           <SortableContext items={allFieldSortableIds} strategy={rectSortingStrategy}>
             {rows.map((row) => (
               <GridRow key={row.id} row={row} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={onSelectField} onDeleteField={onDeleteField} onResizeRow={onResizeRow} />
@@ -1081,7 +1094,7 @@ export default function App() {
         <Header rows={rows} />
         <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
           <ComponentSidebar search={search} onSearchChange={setSearch} />
-          <FormCanvas rows={rows} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={setSelectedId} onDeleteField={deleteField} onResizeRow={handleResizeRow} />
+          <FormCanvas rows={rows} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={setSelectedId} onDeleteField={deleteField} onResizeRow={handleResizeRow} onDeselect={() => setSelectedId(null)} />
           <div style={{ width: 240, background: "#ffffff", borderLeft: "1px solid #e2e8f0", overflowY: "auto", flexShrink: 0 }}>
             <PropertiesPanel field={selectedField} onChange={updateFieldProps} />
           </div>
