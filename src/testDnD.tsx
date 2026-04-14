@@ -86,13 +86,13 @@ type IconName =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const icons: Record<IconName, string> = {
-  text: "M4 7V4h16v3M9 20h6M12 4v16",
+  text: "M4 6h16M12 6v14",
   number: "M4 9h16M4 15h16M10 3L8 21M16 3l-2 18",
   decimal: "M12 2v20M2 12h20",
   date: "M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm-3-2v4M8 2v4M3 10h18",
   multiline: "M4 6h16M4 10h16M4 14h10M4 18h14",
   richtext: "M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z",
-  password: "M12 2a5 5 0 0 0-5 5v3H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2V7a5 5 0 0 0-5-5z",
+  password: "M6 10h12v10H6zM9 10V7a3 3 0 016 0v3",
   attachment: "M6 7.91V16a6 6 0 006 6 6 6 0 006-6V6a4 4 0 00-4-4 4 4 0 00-4 4v9.18a2 2 0 002 2 2 2 0 002-2V8",
   textlist: "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
   email: "M3 8l9 6 9-6v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm0-2a2 2 0 012-2h14a2 2 0 012 2L12 12 3 6z",
@@ -186,8 +186,8 @@ function GripDots({ size = 14, color = "currentColor" }: { size?: number; color?
 
 // ─── FieldRenderer ────────────────────────────────────────────────────────────
 const inputStyle: React.CSSProperties = {
-  width: "100%", background: "#1a1f2e", border: "1px solid #2a3040",
-  color: "#c9d1e0", borderRadius: 4, padding: "6px 10px", fontSize: 13,
+  width: "100%", background: "#f5f5f5", border: "1px solid #d1d5db",
+  color: "#1e293b", borderRadius: 4, padding: "6px 10px", fontSize: 13,
   outline: "none", boxSizing: "border-box",
 };
 
@@ -205,7 +205,7 @@ function renderField(type: FieldType, props: FieldProps): JSX.Element {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {(props.options || []).map((o, i) => (
-            <label key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: "#c9d1e0", fontSize: 13, cursor: "pointer" }}>
+            <label key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1e293b", fontSize: 13, cursor: "pointer" }}>
               <input type="radio" name={`radio_${Math.random()}`} style={{ accentColor: "#3b9eff" }} /> {o}
             </label>
           ))}
@@ -217,7 +217,7 @@ function renderField(type: FieldType, props: FieldProps): JSX.Element {
           <div style={{ width: 36, height: 20, background: "#3b9eff", borderRadius: 10, position: "relative" }}>
             <div style={{ width: 16, height: 16, background: "#fff", borderRadius: "50%", position: "absolute", top: 2, left: 18 }} />
           </div>
-          <span style={{ color: "#c9d1e0", fontSize: 13 }}>Enabled</span>
+          <span style={{ color: "#1e293b", fontSize: 13 }}>Enabled</span>
         </label>
       );
     case "slider":
@@ -226,14 +226,14 @@ function renderField(type: FieldType, props: FieldProps): JSX.Element {
       return (
         <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
           <input type="checkbox" style={{ accentColor: "#3b9eff", width: 15, height: 15 }} />
-          <span style={{ color: "#c9d1e0", fontSize: 13 }}>{props.label}</span>
+          <span style={{ color: "#1e293b", fontSize: 13 }}>{props.label}</span>
         </label>
       );
     case "checkboxgroup":
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {(props.options || []).map((o, i) => (
-            <label key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: "#c9d1e0", fontSize: 13, cursor: "pointer" }}>
+            <label key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1e293b", fontSize: 13, cursor: "pointer" }}>
               <input type="checkbox" style={{ accentColor: "#3b9eff" }} /> {o}
             </label>
           ))}
@@ -242,7 +242,7 @@ function renderField(type: FieldType, props: FieldProps): JSX.Element {
     case "select":
       return <select style={inputStyle}>{(props.options || []).map((o, i) => <option key={i}>{o}</option>)}</select>;
     case "attachment":
-      return <div style={{ ...inputStyle, border: "1px dashed #2a3040", color: "#6b7a99", padding: "12px 10px", textAlign: "center" }}>📎 Click or drag to attach files</div>;
+      return <div style={{ ...inputStyle, border: "1px dashed #d1d5db", color: "#6b7280", padding: "12px 10px", textAlign: "center" }}>📎 Click or drag to attach files</div>;
     case "textlist":
       return <input placeholder="Add item..." style={inputStyle} />;
     default:
@@ -258,9 +258,9 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
   });
   return (
     <div ref={setNodeRef} {...listeners} {...attributes}
-      style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 5, cursor: "grab", color: isDragging ? "#3b9eff" : "#9ba8bf", background: isDragging ? "#1e2535" : "transparent", fontSize: 13, userSelect: "none", transition: "all 0.15s", opacity: isDragging ? 0.5 : 1 }}
-      onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.background = "#1a2233"; e.currentTarget.style.color = "#c9d1e0"; }}
-      onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.background = isDragging ? "#1e2535" : "transparent"; e.currentTarget.style.color = isDragging ? "#3b9eff" : "#9ba8bf"; }}
+      style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 5, cursor: "grab", color: isDragging ? "#3b9eff" : "#475569", background: isDragging ? "#e2e8f0" : "transparent", fontSize: 13, userSelect: "none", transition: "all 0.15s", opacity: isDragging ? 0.5 : 1 }}
+      onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.background = "#f0f4f8"; e.currentTarget.style.color = "#1e293b"; }}
+      onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.background = isDragging ? "#e2e8f0" : "transparent"; e.currentTarget.style.color = isDragging ? "#3b9eff" : "#475569"; }}
     >
       <Icon d={icons[item.icon]} size={14} />
       {item.label}
@@ -272,16 +272,16 @@ function SidebarItem({ item }: { item: SidebarItemData }) {
 function ComponentSidebar({ search, onSearchChange }: { search: string; onSearchChange: (v: string) => void }) {
   const filteredGroups = SIDEBAR_GROUPS.map((g) => ({ ...g, items: g.items.filter((i) => i.label.toLowerCase().includes(search.toLowerCase())) })).filter((g) => g.items.length > 0);
   return (
-    <div style={{ width: 200, background: "#0e1525", borderRight: "1px solid #1a2235", display: "flex", flexDirection: "column", flexShrink: 0, overflowY: "auto" }}>
+    <div style={{ width: 200, background: "#ffffff", borderRight: "1px solid #e2e8f0", display: "flex", flexDirection: "column", flexShrink: 0, overflowY: "auto" }}>
       <div style={{ padding: "10px 10px 6px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#1a2235", border: "1px solid #1e2d42", borderRadius: 6, padding: "6px 10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#e8edf3", border: "1px solid #e2e8f0", borderRadius: 6, padding: "6px 10px" }}>
           <Icon d={icons.search} size={13} />
-          <input value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value)} placeholder="Search" style={{ background: "transparent", border: "none", color: "#c9d1e0", fontSize: 13, outline: "none", width: "100%" }} />
+          <input value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value)} placeholder="Search" style={{ background: "transparent", border: "none", color: "#1e293b", fontSize: 13, outline: "none", width: "100%" }} />
         </div>
       </div>
       {filteredGroups.map((group) => (
         <div key={group.label}>
-          <div style={{ padding: "10px 10px 4px", fontSize: 11, color: "#4a5568", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em" }}>{group.label}</div>
+          <div style={{ padding: "10px 10px 4px", fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em" }}>{group.label}</div>
           {group.items.map((item) => <SidebarItem key={item.type} item={item} />)}
         </div>
       ))}
@@ -321,7 +321,7 @@ function FormField({ field, isSelected, isDraggingFromSidebar, onClick, onDelete
         style={{
           border: isSelected ? "1.5px solid #3b9eff" : "1.5px solid transparent",
           borderRadius: 6,
-          background: isSelected ? "rgba(59,158,255,0.04)" : "transparent",
+          background: isSelected ? "rgba(59,130,246,0.04)" : "transparent",
           padding: "10px 36px 10px 30px", // left padding cho grip, right padding cho trash
           position: "relative",
           transition: "border-color 0.15s, background 0.15s",
@@ -329,7 +329,7 @@ function FormField({ field, isSelected, isDraggingFromSidebar, onClick, onDelete
           cursor: "default",
         }}
         onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (!isSelected) e.currentTarget.style.borderColor = "#2a3a55";
+          if (!isSelected) e.currentTarget.style.borderColor = "#93afc7";
           // Hiện grip và trash khi hover
           const grip = e.currentTarget.querySelector<HTMLElement>(".field-grip");
           const trash = e.currentTarget.querySelector<HTMLElement>(".field-trash");
@@ -363,14 +363,14 @@ function FormField({ field, isSelected, isDraggingFromSidebar, onClick, onDelete
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: isDragging ? "#3b9eff" : "#3a4a60",
+              color: isDragging ? "#3b9eff" : "#94a3b8",
               cursor: isDragging ? "grabbing" : "grab",
               opacity: isSelected ? 1 : 0,
               transition: "opacity 0.15s, color 0.15s",
               zIndex: 2,
             }}
             onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.color = "#3b9eff"; }}
-            onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { if (!isDragging) e.currentTarget.style.color = "#3a4a60"; }}
+            onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { if (!isDragging) e.currentTarget.style.color = "#94a3b8"; }}
             onClick={(e) => e.stopPropagation()}
           >
             <GripDots size={14} color="currentColor" />
@@ -389,7 +389,7 @@ function FormField({ field, isSelected, isDraggingFromSidebar, onClick, onDelete
         {/* ── Label ── */}
         {field.type !== "checkbox" && (
           <div style={{ marginBottom: 6, display: "flex", alignItems: "center", gap: 5 }}>
-            <span style={{ fontSize: 13, fontWeight: 500, color: "#c9d1e0" }}>{field.props.label}</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: "#1e293b" }}>{field.props.label}</span>
             {field.props.required && <span style={{ color: "#ef4444", fontSize: 12 }}>*</span>}
           </div>
         )}
@@ -402,31 +402,31 @@ function FormField({ field, isSelected, isDraggingFromSidebar, onClick, onDelete
 }
 
 // ─── PropertiesPanel ──────────────────────────────────────────────────────────
-const propInputStyle: React.CSSProperties = { width: "90%", background: "#1a1f2e", border: "1px solid #2a3040", color: "#c9d1e0", borderRadius: 4, padding: "5px 8px", fontSize: 12, outline: "none" };
+const propInputStyle: React.CSSProperties = { width: "90%", background: "#f5f5f5", border: "1px solid #d1d5db", color: "#1e293b", borderRadius: 4, padding: "5px 8px", fontSize: 12, outline: "none" };
 
 function PropRow({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <div style={{ fontSize: 11, color: "#6b7a99", marginBottom: 4, display: "flex", gap: 4, alignItems: "center" }}>{label}{required && <span style={{ color: "#ef4444" }}>*</span>}</div>
+      <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 4, display: "flex", gap: 4, alignItems: "center" }}>{label}{required && <span style={{ color: "#ef4444" }}>*</span>}</div>
       {children}
     </div>
   );
 }
 
 function PropertiesPanel({ field, onChange }: { field: Field | null; onChange: (props: FieldProps) => void }) {
-  if (!field) return <div style={{ padding: "20px 16px", color: "#4a5568", fontSize: 13, textAlign: "center" }}><div style={{ marginBottom: 8 }}>Select a field to edit</div><div style={{ fontSize: 11 }}>Properties will appear here</div></div>;
+  if (!field) return <div style={{ padding: "20px 16px", color: "#64748b", fontSize: 13, textAlign: "center" }}><div style={{ marginBottom: 8 }}>Select a field to edit</div><div style={{ fontSize: 11 }}>Properties will appear here</div></div>;
   const update = (key: keyof FieldProps, val: FieldProps[keyof FieldProps]) => onChange({ ...field.props, [key]: val });
   const hasPlaceholder = (["text", "number", "decimal", "email", "multiline", "textlist"] as FieldType[]).includes(field.type);
   const hasOptions = (["radio", "checkboxgroup", "select"] as FieldType[]).includes(field.type);
   return (
     <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 14 }}>
-      <div style={{ fontSize: 12, fontWeight: 600, color: "#3b9eff", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{field.type.charAt(0).toUpperCase() + field.type.slice(1)} — General</div>
-      <PropRow label="ID" required><span style={{ color: "#6b7a99", fontSize: 12 }}>{field.id}</span></PropRow>
+      <div style={{ fontSize: 12, fontWeight: 600, color: "#2563eb", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{field.type.charAt(0).toUpperCase() + field.type.slice(1)} — General</div>
+      <PropRow label="ID" required><span style={{ color: "#6b7280", fontSize: 12 }}>{field.id}</span></PropRow>
       <PropRow label="Label"><input value={field.props.label || ""} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("label", e.target.value)} style={propInputStyle} /></PropRow>
       <PropRow label="Required">
         <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
           <input type="checkbox" checked={!!field.props.required} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("required", e.target.checked)} style={{ accentColor: "#3b9eff" }} />
-          <span style={{ fontSize: 12, color: "#9ba8bf" }}>{field.props.required ? "Yes" : "No"}</span>
+          <span style={{ fontSize: 12, color: "#475569" }}>{field.props.required ? "Yes" : "No"}</span>
         </label>
       </PropRow>
       {hasPlaceholder && <PropRow label="Placeholder"><input value={field.props.placeholder || ""} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("placeholder", e.target.value)} style={propInputStyle} /></PropRow>}
@@ -436,10 +436,10 @@ function PropertiesPanel({ field, onChange }: { field: Field | null; onChange: (
             {(field.props.options || []).map((opt, i) => (
               <div key={i} style={{ display: "flex", gap: 4 }}>
                 <input value={opt} onChange={(e: React.ChangeEvent<HTMLInputElement>) => { const opts = [...(field.props.options ?? [])]; opts[i] = e.target.value; update("options", opts); }} style={{ flex: 1, ...propInputStyle, width: "auto" }} />
-                <button onClick={() => update("options", (field.props.options ?? []).filter((_, j) => j !== i))} style={{ background: "transparent", border: "1px solid #2a3040", color: "#ef4444", borderRadius: 4, cursor: "pointer", padding: "0 6px", fontSize: 12 }}>×</button>
+                <button onClick={() => update("options", (field.props.options ?? []).filter((_, j) => j !== i))} style={{ background: "transparent", border: "1px solid #d1d5db", color: "#ef4444", borderRadius: 4, cursor: "pointer", padding: "0 6px", fontSize: 12 }}>×</button>
               </div>
             ))}
-            <button onClick={() => update("options", [...(field.props.options || []), `Option ${(field.props.options?.length || 0) + 1}`])} style={{ background: "#1a2233", border: "1px dashed #2a3a50", color: "#3b9eff", borderRadius: 4, cursor: "pointer", padding: "4px", fontSize: 12, marginTop: 2 }}>+ Add option</button>
+            <button onClick={() => update("options", [...(field.props.options || []), `Option ${(field.props.options?.length || 0) + 1}`])} style={{ background: "#f0f4f8", border: "1px dashed #93c5fd", color: "#2563eb", borderRadius: 4, cursor: "pointer", padding: "4px", fontSize: 12, marginTop: 2 }}>+ Add option</button>
           </div>
         </PropRow>
       )}
@@ -460,8 +460,8 @@ function DroppableCell({ droppableId, isHighlighted, isEmpty, children, flexValu
   const { isOver, setNodeRef } = useDroppable({ id: droppableId });
   const active = isOver || isHighlighted;
   return (
-    <div ref={setNodeRef} style={{ flex: flexValue, minHeight: isEmpty ? 72 : undefined, borderRadius: 6, border: active ? "2px dashed #3b9eff" : isEmpty ? "2px dashed #1e2d42" : "2px solid transparent", background: active ? "rgba(59,158,255,0.07)" : "transparent", transition: "border-color 0.15s, background 0.15s", display: "flex", alignItems: "stretch", position: "relative", overflow: "hidden", minWidth: 0 }}>
-      {isEmpty && <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: active ? "#3b9eff" : "#2a3a50", fontSize: 11, pointerEvents: "none" }}>{active ? "Thả vào đây" : "ô trống"}</div>}
+    <div ref={setNodeRef} style={{ flex: flexValue, minHeight: isEmpty ? 72 : undefined, borderRadius: 6, border: active ? "2px dashed #3b9eff" : isEmpty ? "2px dashed #1e2d42" : "2px solid transparent", background: active ? "rgba(59,130,246,0.07)" : "transparent", transition: "border-color 0.15s, background 0.15s", display: "flex", alignItems: "stretch", position: "relative", overflow: "hidden", minWidth: 0 }}>
+      {isEmpty && <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: active ? "#3b9eff" : "#94a3b8", fontSize: 11, pointerEvents: "none" }}>{active ? "Thả vào đây" : "ô trống"}</div>}
       <div style={{ flex: 1, minWidth: 0 }}>{children}</div>
     </div>
   );
@@ -486,7 +486,6 @@ function ResizeHandle({ handleIndex, colWidths, onResize }: {
 
     // Snapshot widths at drag start
     const startWidths = [...colWidths];
-    const totalCols = startWidths.length;
     const MIN_FRAC = 0.1; // minimum 10% per column
 
     const onMove = (mv: MouseEvent) => {
@@ -534,7 +533,7 @@ function ResizeHandle({ handleIndex, colWidths, onResize }: {
       title="Kéo để thay đổi kích thước cột"
       style={{ width: 12, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", cursor: "col-resize", position: "relative", zIndex: 10, userSelect: "none" }}
     >
-      <div style={{ width: dragging ? 3 : 2, height: "60%", minHeight: 24, borderRadius: 99, background: dragging ? "#3b9eff" : "#2a3a55", transition: "background 0.15s, width 0.1s" }} />
+      <div style={{ width: dragging ? 3 : 2, height: "60%", minHeight: 24, borderRadius: 99, background: dragging ? "#3b9eff" : "#93afc7", transition: "background 0.15s, width 0.1s" }} />
       <div style={{ position: "absolute", inset: "0 -4px", cursor: "col-resize" }} onMouseDown={handleMouseDown} />
     </div>
   );
@@ -628,15 +627,15 @@ function BottomDropZone({ isEmpty, isDraggingFromSidebar }: { isEmpty: boolean; 
   const { isOver, setNodeRef } = useDroppable({ id: "canvas:new:full" });
   if (!isDraggingFromSidebar && !isEmpty) return null;
   return (
-    <div ref={setNodeRef} style={{ minHeight: isEmpty ? 280 : 56, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10, border: `2px dashed ${isOver ? "#3b9eff" : "#1e2d42"}`, background: isOver ? "rgba(59,158,255,0.05)" : "transparent", transition: "all 0.2s", marginTop: isEmpty ? 0 : 4 }}>
+    <div ref={setNodeRef} style={{ minHeight: isEmpty ? 280 : 56, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10, border: `2px dashed ${isOver ? "#3b9eff" : "#cbd5e1"}`, background: isOver ? "rgba(59,130,246,0.05)" : "transparent", transition: "all 0.2s", marginTop: isEmpty ? 0 : 4 }}>
       {isEmpty ? (
-        <div style={{ textAlign: "center", color: isOver ? "#3b9eff" : "#3a4a5e" }}>
+        <div style={{ textAlign: "center", color: isOver ? "#3b9eff" : "#94a3b8" }}>
           <div style={{ fontSize: 28, marginBottom: 8 }}>📋</div>
           <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 4 }}>Thả component vào đây</div>
-          <div style={{ fontSize: 12, color: "#4a5568" }}>Thả vào giữa → cả dòng · Thả vào ô bên cạnh → nửa dòng</div>
+          <div style={{ fontSize: 12, color: "#64748b" }}>Thả vào giữa → cả dòng · Thả vào ô bên cạnh → nửa dòng</div>
         </div>
       ) : (
-        <div style={{ fontSize: 12, color: isOver ? "#3b9eff" : "#2a3a50" }}>{isOver ? "Thêm dòng mới" : "+ Thả để thêm dòng mới"}</div>
+        <div style={{ fontSize: 12, color: isOver ? "#3b9eff" : "#94a3b8" }}>{isOver ? "Thêm dòng mới" : "+ Thả để thêm dòng mới"}</div>
       )}
     </div>
   );
@@ -652,9 +651,9 @@ function FormCanvas({ rows, selectedId, dropTarget, isDraggingFromSidebar, onSel
   const allFieldSortableIds = rows.flatMap((row) => row.cells.map((c) => `field:${c.field.id}`));
 
   return (
-    <div style={{ flex: 1, overflowY: "auto", background: "#0f1320", padding: "24px" }}>
+    <div style={{ flex: 1, overflowY: "auto", background: "#f0f2f5", padding: "24px" }}>
       <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        <div style={{ background: "#111827", borderRadius: 10, border: "1px solid #1a2235", padding: "24px 28px", minHeight: 500 }}>
+        <div style={{ background: "#fafafa", borderRadius: 10, border: "1px solid #e2e8f0", padding: "24px 28px", minHeight: 500 }}>
           <SortableContext items={allFieldSortableIds} strategy={rectSortingStrategy}>
             {rows.map((row) => (
               <GridRow key={row.id} row={row} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={onSelectField} onDeleteField={onDeleteField} onResizeRow={onResizeRow} />
@@ -821,11 +820,11 @@ function Header({ rows }: { rows: Row[] }) {
 
   return (
     <div style={{
-      height: 48, background: "#0e1525", borderBottom: "1px solid #1a2235",
+      height: 48, background: "#ffffff", borderBottom: "1px solid #e2e8f0",
       display: "flex", alignItems: "center", justifyContent: "space-between",
       padding: "0 20px", flexShrink: 0,
     }}>
-      <span style={{ fontSize: 14, fontWeight: 600, color: "#c9d1e0", letterSpacing: "0.02em" }}>
+      <span style={{ fontSize: 14, fontWeight: 600, color: "#1e293b", letterSpacing: "0.02em" }}>
         Form Builder
       </span>
       <div style={{ display: "flex", gap: 10 }}>
@@ -834,7 +833,7 @@ function Header({ rows }: { rows: Row[] }) {
             display: "flex", alignItems: "center", gap: 6,
             padding: "6px 14px", borderRadius: 6, fontSize: 13, fontWeight: 500,
             background: "transparent", border: "1px solid #2a3a55",
-            color: "#9ba8bf", cursor: "default",
+            color: "#475569", cursor: "default",
           }}
         >
           {/* Copy icon */}
@@ -850,9 +849,9 @@ function Header({ rows }: { rows: Row[] }) {
           style={{
             display: "flex", alignItems: "center", gap: 6,
             padding: "6px 14px", borderRadius: 6, fontSize: 13, fontWeight: 500,
-            background: hasFields ? (clicked ? "#2563eb" : "#3b82f6") : "#1a2235",
+            background: hasFields ? (clicked ? "#2563eb" : "#3b82f6") : "#e8edf3",
             border: hasFields ? "1px solid #2563eb" : "1px solid #1e2d42",
-            color: hasFields ? "#fff" : "#3a4a60",
+            color: hasFields ? "#fff" : "#94a3b8",
             cursor: hasFields ? "pointer" : "not-allowed",
             transition: "all 0.2s",
             boxShadow: hasFields ? "0 1px 6px rgba(59,130,246,0.25)" : "none",
@@ -1078,12 +1077,12 @@ export default function App() {
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-      <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "#0f1320", color: "#c9d1e0", fontFamily: "'IBM Plex Sans', 'Segoe UI', sans-serif", overflow: "hidden" }}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "#f0f2f5", color: "#1e293b", fontFamily: "'IBM Plex Sans', 'Segoe UI', sans-serif", overflow: "hidden" }}>
         <Header rows={rows} />
         <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
           <ComponentSidebar search={search} onSearchChange={setSearch} />
           <FormCanvas rows={rows} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={setSelectedId} onDeleteField={deleteField} onResizeRow={handleResizeRow} />
-          <div style={{ width: 240, background: "#0e1525", borderLeft: "1px solid #1a2235", overflowY: "auto", flexShrink: 0 }}>
+          <div style={{ width: 240, background: "#ffffff", borderLeft: "1px solid #e2e8f0", overflowY: "auto", flexShrink: 0 }}>
             <PropertiesPanel field={selectedField} onChange={updateFieldProps} />
           </div>
         </div>
@@ -1092,15 +1091,15 @@ export default function App() {
       <DragOverlay dropAnimation={{ duration: 160, easing: "ease" }}>
         {/* Sidebar drag overlay */}
         {isDraggingFromSidebar && (
-          <div style={{ background: "#1a2e4a", border: "1.5px solid #3b9eff", borderRadius: 6, padding: "7px 12px", color: "#3b9eff", fontSize: 13, boxShadow: "0 8px 24px rgba(0,0,0,0.4)", pointerEvents: "none" }}>
+          <div style={{ background: "#eff6ff", border: "1.5px solid #3b82f6", borderRadius: 6, padding: "7px 12px", color: "#2563eb", fontSize: 13, boxShadow: "0 8px 24px rgba(0,0,0,0.4)", pointerEvents: "none" }}>
             {(activeItem as { kind: "sidebar"; label: string }).label}
           </div>
         )}
         {/* Field drag overlay */}
         {draggingField && (
-          <div style={{ background: "#111827", border: "1.5px solid #3b9eff", borderRadius: 6, padding: "10px 14px", boxShadow: "0 12px 32px rgba(0,0,0,0.5)", pointerEvents: "none", opacity: 0.9, minWidth: 180 }}>
-            <div style={{ fontSize: 11, color: "#6b7a99", marginBottom: 6 }}>{draggingField.props.label}</div>
-            <div style={{ height: 28, background: "#1a1f2e", borderRadius: 4, border: "1px solid #2a3040" }} />
+          <div style={{ background: "#fafafa", border: "1.5px solid #3b82f6", borderRadius: 6, padding: "10px 14px", boxShadow: "0 12px 32px rgba(0,0,0,0.5)", pointerEvents: "none", opacity: 0.9, minWidth: 180 }}>
+            <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 6 }}>{draggingField.props.label}</div>
+            <div style={{ height: 28, background: "#f5f5f5", borderRadius: 4, border: "1px solid #d1d5db" }} />
           </div>
         )}
       </DragOverlay>
