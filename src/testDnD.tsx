@@ -14,7 +14,7 @@ import {
 import {
   useSortable,
   SortableContext,
-  verticalListSortingStrategy,
+  rectSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable"
 import type { DragOverEvent, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
@@ -483,12 +483,8 @@ function GridRow({ row, selectedId, dropTarget, isDraggingFromSidebar, onSelectF
   const isTargetRight = dropTarget?.rowId === row.id && dropTarget?.slot === "right";
   const isTargetFull = dropTarget?.rowId === row.id && dropTarget?.slot === "full";
 
-  // SortableContext ids cho các field trong row này
-  const fieldSortableIds = row.cells.map((c) => `field:${c.field.id}`);
-
   return (
     <div style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "stretch" }}>
-      <SortableContext items={fieldSortableIds} strategy={verticalListSortingStrategy}>
         {isFull ? (
           <>
             {isDraggingFromSidebar && <DroppableCell droppableId={leftDropId} isHighlighted={isTargetLeft} isEmpty width="half" />}
@@ -507,7 +503,6 @@ function GridRow({ row, selectedId, dropTarget, isDraggingFromSidebar, onSelectF
             </DroppableCell>
           </>
         )}
-      </SortableContext>
     </div>
   );
 }
@@ -537,13 +532,17 @@ function FormCanvas({ rows, selectedId, dropTarget, isDraggingFromSidebar, onSel
   isDraggingFromSidebar: boolean;
   onSelectField: (id: string) => void; onDeleteField: (id: string) => void;
 }) {
+  const allFieldSortableIds = rows.flatMap((row) => row.cells.map((c) => `field:${c.field.id}`));
+
   return (
     <div style={{ flex: 1, overflowY: "auto", background: "#0f1320", padding: "24px" }}>
       <div style={{ maxWidth: 720, margin: "0 auto" }}>
         <div style={{ background: "#111827", borderRadius: 10, border: "1px solid #1a2235", padding: "24px 28px", minHeight: 500 }}>
-          {rows.map((row) => (
-            <GridRow key={row.id} row={row} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={onSelectField} onDeleteField={onDeleteField} />
-          ))}
+          <SortableContext items={allFieldSortableIds} strategy={rectSortingStrategy}>
+            {rows.map((row) => (
+              <GridRow key={row.id} row={row} selectedId={selectedId} dropTarget={dropTarget} isDraggingFromSidebar={isDraggingFromSidebar} onSelectField={onSelectField} onDeleteField={onDeleteField} />
+            ))}
+          </SortableContext>
           <BottomDropZone isEmpty={rows.length === 0} isDraggingFromSidebar={isDraggingFromSidebar} />
         </div>
       </div>
@@ -760,12 +759,26 @@ export default function App() {
 
   // ── Drag over ────────────────────────────────────────────────────────────────
   const handleDragOver = (event: DragOverEvent) => {
-    if (!isDraggingFromSidebar) { setDropTarget(null); return; }
+    const data = event.active.data.current as Record<string, unknown> | undefined;
     const overId = event.over?.id as string | undefined;
+
     if (!overId) { setDropTarget(null); return; }
-    const parsed = parseDropId(overId);
-    if (parsed) setDropTarget({ rowId: parsed.rowId, slot: parsed.slot });
-    else setDropTarget(null);
+
+    if (data?.kind === "sidebar") {
+      const parsed = parseDropId(overId);
+      if (parsed) setDropTarget({ rowId: parsed.rowId, slot: parsed.slot });
+      else setDropTarget(null);
+      return;
+    }
+
+    // kéo field: cập nhật dropTarget để highlight ô đích
+    if (data?.kind === "field") {
+      // overId dạng "field:field_X" → tìm row+slot của field đó
+      const overFieldId = (overId as string).replace("field:", "");
+      const dstInfo = findFieldInRows(rows, overFieldId);
+      if (dstInfo) setDropTarget({ rowId: dstInfo.rowId, slot: dstInfo.slot });
+      else setDropTarget(null);
+    }
   };
 
   // ── Drag end ─────────────────────────────────────────────────────────────────
